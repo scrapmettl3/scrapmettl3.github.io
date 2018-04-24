@@ -170,7 +170,7 @@ ApplicationMain.init = function() {
 	}
 };
 ApplicationMain.main = function() {
-	ApplicationMain.config = { build : "171", company : "HaxeFlixel", file : "DinerBash", fps : 60, name : "DinerBash", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : true, stencilBuffer : true, title : "DinerBash", vsync : false, width : 640, x : null, y : null}]};
+	ApplicationMain.config = { build : "173", company : "HaxeFlixel", file : "DinerBash", fps : 60, name : "DinerBash", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : true, stencilBuffer : true, title : "DinerBash", vsync : false, width : 640, x : null, y : null}]};
 };
 ApplicationMain.start = function() {
 	var hasMain = false;
@@ -4325,14 +4325,14 @@ var Customer = function(X,Y,tab,foods,player) {
 	default:
 		this.loadGraphic("assets/customer.png",true,Customer.customerSIZE,Customer.customerSIZE);
 	}
-	this.animation.add("idle",[0,1,2],2);
-	this.animation.add("walking",[1,2,3,4],3);
-	this.animation.add("angry",[1,2,3,4],5);
+	this.animation.add("idle",[0,1],2);
+	this.animation.add("walking",[2,3],2);
+	this.animation.add("angry",[2,3],2);
 	this.animation.add("seated",[0],1);
 	this.animation.add("hit",[6],2);
 	this.animation.add("punching",[5,4],2,false);
 	this.animation.add("windingUpPunch",[4,4,4],2,false);
-	this.animation.add("knockedDown",[6,7,8,9],2,false);
+	this.animation.add("knockedDown",[6,7,8,9,8,9],2,false);
 	this._facingFlip.set(16,{ x : false, y : false});
 	this._facingFlip.set(1,{ x : true, y : false});
 	this.set_facing(16);
@@ -4397,7 +4397,9 @@ Customer.prototype = $extend(flixel_FlxSprite.prototype,{
 		return order;
 	}
 	,clearOrder: function() {
-		this._order.kill();
+		if(this._order != null) {
+			this._order.kill();
+		}
 		this._order = null;
 	}
 	,hasNotOrdered: function() {
@@ -5863,7 +5865,7 @@ EReg.prototype = {
 };
 var EnemyManager = function(game,tablez,player) {
 	this._countDown = 1;
-	this._spawnPeriod = 14;
+	this._spawnPeriod = 9;
 	flixel_FlxBasic.call(this);
 	this.world = game;
 	this.tables = tablez;
@@ -6963,8 +6965,8 @@ var Player = function() {
 	this.isHit = false;
 	flixel_FlxSprite.call(this,100,100);
 	this.loadGraphic("assets/girl.png",true,140,140);
-	this.animation.add("stand",[0,1,2],4);
-	this.animation.add("walking",[1,2,3],4);
+	this.animation.add("stand",[0,1],4);
+	this.animation.add("walking",[2,3],3);
 	this.animation.add("swing",[4,5],3,false);
 	this.animation.add("knockedDown",[6,7],3,false);
 	this.animation.play("walking");
