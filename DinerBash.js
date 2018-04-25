@@ -170,7 +170,7 @@ ApplicationMain.init = function() {
 	}
 };
 ApplicationMain.main = function() {
-	ApplicationMain.config = { build : "173", company : "HaxeFlixel", file : "DinerBash", fps : 60, name : "DinerBash", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : true, stencilBuffer : true, title : "DinerBash", vsync : false, width : 640, x : null, y : null}]};
+	ApplicationMain.config = { build : "174", company : "HaxeFlixel", file : "DinerBash", fps : 60, name : "DinerBash", orientation : "", packageName : "com.example.myapp", version : "0.0.1", windows : [{ antialiasing : 0, background : 0, borderless : false, depthBuffer : false, display : 0, fullscreen : false, hardware : false, height : 480, parameters : "{}", resizable : true, stencilBuffer : true, title : "DinerBash", vsync : false, width : 640, x : null, y : null}]};
 };
 ApplicationMain.start = function() {
 	var hasMain = false;
@@ -4384,7 +4384,7 @@ Customer.prototype = $extend(flixel_FlxSprite.prototype,{
 		var order = new flixel_FlxSprite(this.x,this.y - 35);
 		var foods = ["assets/pizza.png","assets/sandwich.png","assets/soda.png"];
 		var offset = 5;
-		order.makeGraphic(140,55,-1,true);
+		order.makeGraphic(200,55,-1,true);
 		var _g = 0;
 		while(_g < 3) {
 			var i = _g++;
@@ -5905,10 +5905,10 @@ EnemyManager.prototype = $extend(flixel_FlxBasic.prototype,{
 	}
 	,update: function(elapsed) {
 		this._countDown -= elapsed;
-		if(this._countDown < 0) {
+		if(this._countDown < 0 && Customer.numHostile < 50) {
 			this.createEnemy();
 			this._countDown = this._spawnPeriod;
-			if(EnemyManager.customersServed % 5 == 0) {
+			if(EnemyManager.customersServed % 5 == 0 && this._spawnPeriod > .5) {
 				this._spawnPeriod *= .9;
 			}
 		}
@@ -7709,14 +7709,6 @@ Util.moveToTarget = function(owner) {
 Util.checkMove = function(owner) {
 	owner.velocity.set_x(0);
 	owner.velocity.set_y(0);
-	var tmp;
-	var _this = flixel_FlxG.keys.pressed;
-	if(_this.keyManager.checkStatus(37,_this.status)) {
-		tmp = 1;
-	} else {
-		tmp = 16;
-	}
-	owner.set_facing(tmp);
 	if(flixel_FlxG.keys.checkKeyArrayState([37,65],1)) {
 		var _g = owner.velocity;
 		_g.set_x(_g.x - Util._PLAYER_MOVEMENT_SPEED);
@@ -7732,6 +7724,12 @@ Util.checkMove = function(owner) {
 	if(flixel_FlxG.keys.checkKeyArrayState([40,83],1)) {
 		var _g3 = owner.velocity;
 		_g3.set_y(_g3.y + Util._PLAYER_MOVEMENT_SPEED);
+	}
+	if(owner.velocity.x < 0) {
+		owner.set_facing(1);
+	}
+	if(owner.velocity.x > 0) {
+		owner.set_facing(16);
 	}
 };
 var Xml = function(nodeType) {
